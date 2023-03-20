@@ -92,7 +92,8 @@ int main(void) {
 	init_sdl();
 
 	while (!done) {
-		SDL_Delay(5);
+		// change delay for different FPS
+		SDL_Delay(10);
 
 		// handle quit and input events
 		handle_sdl_events();
@@ -103,6 +104,7 @@ int main(void) {
 		print_fps();
 	}
 	
+	// free memory associated with SDL
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 	SDL_Quit();
