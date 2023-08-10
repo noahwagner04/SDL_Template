@@ -60,23 +60,50 @@ void render_frame() {
 	SDL_RenderPresent(renderer);
 }
 
-void handle_sdl_events() {
-	int event_occured = SDL_PollEvent(&event);
+void handle_mouse_events() {
+	int mouse_x = 0;
+	int mouse_y = 0;
+	uint32_t mouse = SDL_GetMouseState(&mouse_x, &mouse_y);
+
+	// check if the left mouse button is currently being held down
+	if(mouse & SDL_BUTTON(1)) printf("mouse left\n");
+
+	printf("mouse x: %d, mouse y: %d\n", mouse_x, mouse_y);
+}
+
+// assumes SDL_PumpEvents has been called (which is automatically done by calling SDL_WaitEvent or SDL_PollEvent)
+void handle_keyboard_events() {
+	// get a snapshot of the keyboard
 	const uint8_t *keyboard = SDL_GetKeyboardState(NULL);
 
-	// handle SDL inputs
+	// check if WASD keys are currently being held down
 	if (keyboard[SDL_SCANCODE_A]) printf("%s\n", "left");
 	if (keyboard[SDL_SCANCODE_D]) printf("%s\n", "right");
 
 	if (keyboard[SDL_SCANCODE_W]) printf("%s\n", "up");
 	if (keyboard[SDL_SCANCODE_S]) printf("%s\n", "down");
+}
 
-	// YOUR CUSTOME KEY INPUTS
+void handle_events() {
 
-	// handle SDL quit events
-	if ((event_occured && event.type == SDL_QUIT) || keyboard[SDL_SCANCODE_ESCAPE]) {
-		done = 1;
+	// poll until all events are handled
+	while(SDL_PollEvent) {
+		// handle quit event
+		if(event.type == SDL_QUIT) done = 1;
+
+		// custome event handling goes here
 	}
+	/*
+	NOTE: the functions below only check if mouse and keyboard buttons are held down. To check if a key or 
+	mouse button was just pressed or released, you could either 
+	1. compare the keyboard / mouse states to the previous frames keyboard / mouse states 
+		(would require an additional state for the previous frame). If a key or button state is different 
+		from the previous frame's state, then the key has been pressed or released
+	2. execute callback functions to SDL_MOUSE_BOTTONDOWN, SDL_KEYDOWN, SDL_MOUSE_BOTTONUP, and SDL_KEYUP 
+		directly inside the above event handler loop, and pass the event as an argument to the functions
+	*/
+	handle_mouse_events();
+	handle_keyboard_events();
 }
 
 void print_fps() {
@@ -96,7 +123,7 @@ int main(void) {
 		SDL_Delay(10);
 
 		// handle quit and input events
-		handle_sdl_events();
+		handle_events();
 
 		// draws the contents of pixel_data to the sdl window
 		render_frame();
