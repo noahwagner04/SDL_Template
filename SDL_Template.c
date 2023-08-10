@@ -87,7 +87,7 @@ void handle_keyboard_events() {
 void handle_events() {
 
 	// poll until all events are handled
-	while(SDL_PollEvent) {
+	while(SDL_PollEvent(&event)) {
 		// handle quit event
 		if(event.type == SDL_QUIT) done = 1;
 
