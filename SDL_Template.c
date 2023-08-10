@@ -98,7 +98,7 @@ void handle_events() {
 	mouse button was just pressed or released, you could either 
 	1. compare the keyboard / mouse states to the previous frames keyboard / mouse states 
 		(would require an additional state for the previous frame). If a key or button state is different 
-		from the previous frame's state, then the key has been pressed or released
+		from the previous frames state, then the key has been pressed or released
 	2. execute callback functions to SDL_MOUSE_BOTTONDOWN, SDL_KEYDOWN, SDL_MOUSE_BOTTONUP, and SDL_KEYUP 
 		directly inside the above event handler loop, and pass the event as an argument to the functions
 	*/
